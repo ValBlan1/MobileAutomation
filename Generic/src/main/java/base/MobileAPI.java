@@ -25,8 +25,8 @@ public class MobileAPI {
     @BeforeMethod
     public void setUp(@Optional String OS, @Optional String appType, @Optional String deviceType, @Optional String deviceName, @Optional String version, @Optional String moduleName,
                       @Optional String appName) throws MalformedURLException {
+
         if(OS.equalsIgnoreCase("iOS")){
-            //handle IOS
             if(OS.equalsIgnoreCase("Phone")){
                 if(deviceType.equalsIgnoreCase("realDevice")){
                     cap = new DesiredCapabilities();
@@ -41,27 +41,24 @@ public class MobileAPI {
                     cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,version);
                     cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
                 }
-
             }else if(OS.equalsIgnoreCase("Tablets")){
                 if(deviceType.equalsIgnoreCase("realDevice")){
                     cap = new DesiredCapabilities();
                     cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
                     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceType);
                     cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,version);
-                    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
-                }else if(deviceType.equalsIgnoreCase("Emulator")){
+                    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
+                }else if(deviceType.equalsIgnoreCase("Simulator")){
                     cap = new DesiredCapabilities();
                     cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
                     cap.setCapability(MobileCapabilityType.PLATFORM_NAME, deviceType);
                     cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,version);
-                    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
+                    cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
                 }
             }
         }else if(OS.equalsIgnoreCase("Android")){
-            //Handle Android
-            if(appType.equalsIgnoreCase("Phone")){
-                appDirectory = new File(moduleName + "/src/app");
-                findApp = new File(appDirectory,appName);
+
+            if(appType.equalsIgnoreCase("Phone"))
                 if(deviceType.equalsIgnoreCase("realDevice")){
                     cap = new DesiredCapabilities();
                     cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
@@ -69,8 +66,8 @@ public class MobileAPI {
                     cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,version);
                     cap.setCapability(MobileCapabilityType.APP, findApp.getAbsolutePath());
                     cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
-                    appiumDriver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"),cap);
-                    appiumDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+
                 }else if(deviceType.equalsIgnoreCase("Emulator")){
                     cap = new DesiredCapabilities();
                     cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
@@ -95,7 +92,7 @@ public class MobileAPI {
                 }
             }
         }
-    }
+
 
     @AfterMethod
     public void cleanUpApp(){
